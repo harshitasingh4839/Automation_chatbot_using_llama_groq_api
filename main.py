@@ -2,7 +2,7 @@ import streamlit as st
 from dotenv import load_dotenv
 from utils.response_handlers import (
     determine_intent, handle_greeting, extract_meeting_info,
-    handle_task_management, handle_general_query, format_response
+     handle_general_query, format_response, extract_payment_info
 )
 
 # Load environment variables
@@ -19,8 +19,10 @@ def bot_calling_functions(user_prompt: str, user_email: str) -> str:
             response_data = handle_greeting(user_prompt)
         elif intent == "meeting":
             response_data = extract_meeting_info(user_prompt, user_email)
-        elif intent == "task":
-            response_data = handle_task_management(user_prompt)
+        # Added payement_reminder for sending emails by returning json data
+        elif intent == "payment_reminder":  
+            response_data = extract_payment_info(user_prompt, user_email)
+
         else:
             response_data = handle_general_query(user_prompt)
         
